@@ -1,0 +1,27 @@
+USER -- GET - GET/ID - POST - PUT - DELETE - LOGIN
+
+	email --> unique: true
+	password	
+	nombre
+	apellidos --> select: false
+	rol --> enum de ["JUGADOR", "DELEGADO", "ADMINISTRADOR"] de esto depende los permisos
+	image
+	equipo
+
+TEAM -- GET - GET/ID - POST - PUT - DELETE -- (PUT/DELETE PLAYER -- PUT/ADD PLAYER)Puede ser el mismo y solo puede hacerlo delegado y admin.
+
+	players: IUser[]
+
+
+MATCH -- GET - GET/ID - POST - PUT - GET BY TEAM
+	team1: ITeam
+	team2: Iteam
+	result: string
+	matchDate
+
+LEAGUE -- GET - GET/ID - POST - PUT - DELETE
+	
+	games: IMatch[]
+
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjU0Yjc3MjA3ZDBjZjE2YjQ3OGQxZjQiLCJ1c2VyRW1haWwiOiJwYXZpcmVAZ21haWwuY29tIiwiaWF0IjoxNzE2OTE0MTgwLCJleHAiOjE3MTcwMDA1ODB9.GFhOJM_TORVu6gRNH89W9sFxk2up7XDP4K7IkSDhSTo
