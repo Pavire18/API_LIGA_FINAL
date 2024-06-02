@@ -1,5 +1,6 @@
 import { type NextFunction, type Request, type Response } from "express";
 import { matchOdm } from "../odm/match.odm";
+import { IMatch, Match } from "../entities/match-entity";
 
 const getAllMatches = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -69,7 +70,20 @@ const updateMatch = async (req: any, res: Response, next: NextFunction): Promise
       return;
     }
     const id = req.params.id;
-    const matchUpdated = await matchOdm.updateMatch(id, req.body);
+    let matchUpdated = null;
+    const matchToUpdate: IMatch = new Match(await matchOdm.getMatchById(id));
+    if (matchToUpdate?.matchPlayed) {
+      const winnerTeam = matchToUpdate.goalsTeam1 > matchToUpdate.goalsTeam2 ? matchToUpdate.team1 : matchToUpdate.team2;
+      const newMatch: IMatch = {
+        ...req.body,
+        winner: winnerTeam
+      };
+
+      matchUpdated = await matchOdm.updateMatch(id, newMatch);
+    } else {
+      matchUpdated = await matchOdm.updateMatch(id, req.body);
+    }
+
     if (matchUpdated) {
       res.json(matchUpdated);
     } else {

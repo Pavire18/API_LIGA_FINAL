@@ -1,14 +1,17 @@
 import { Document } from "mongoose";
 import { ILeague, League } from "../entities/league-entity";
-import { Team } from "../entities/team-entity";
+import { ITeam, Team } from "../entities/team-entity";
 import { IMatch, Match } from "../entities/match-entity";
 import { randomNumber, scheduleMatches } from "../../utils/scheduleMatches";
 import { MatchDay, MatchDayA } from "../entities/matchDay-entity";
+import { matchOdm } from "./match.odm";
+import { teamOdm } from "./team.odm";
 
 const getAllLeagues = async (page: number, limit: number): Promise<any> => {
   return await League.find()
     .limit(limit)
-    .skip((page - 1) * limit).populate("games");
+    .skip((page - 1) * limit)
+    .populate("games");
 };
 
 const getLeaguesCount = async (): Promise<number> => {
@@ -71,10 +74,42 @@ const resetLeague = async (): Promise<Document<ILeague> | null> => {
   return document;
 };
 
+const getClasification = async (): Promise<any> => {
+  const equipos: ITeam[] = await teamOdm.getAllTeams(0, 0);
+  const partidos = await matchOdm.getAllMatches(0, 0);
+  const clasification: any = [];
+  console.log(partidos);
+  equipos.forEach((team) => {
+    const equipo = {
+      teamName: team.name,
+      pg: 0,
+      pp: 0,
+      pt: 0,
+    };
+    clasification.push(equipo);
+  });
+
+  partidos.forEach(async (partido: any) => {
+    if (partido.matchPlayed) {
+      if (partido.winner !== null) {
+        const indice = clasification.findIndex((equipo: any) => equipo.teamName === partido.winner?.name);
+        const pt: number = clasification[indice].pt;
+        const pg: number = clasification[indice].pg;
+        clasification[indice].pt = pt + 3;
+        clasification[indice].pg = pg + 1;
+      }
+    }
+  });
+  console.log(clasification);
+
+  return clasification.sort((a: any, b: any) => (a.pt > b.pt ? 1 : b.pt > a.pt ? -1 : 0));
+};
+
 export const leagueOdm = {
   getAllLeagues,
   createLeague,
   updateLeague,
   getLeaguesCount,
-  resetLeague
+  resetLeague,
+  getClasification,
 };

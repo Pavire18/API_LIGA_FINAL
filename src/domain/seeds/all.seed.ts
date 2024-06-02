@@ -88,7 +88,16 @@ async function populateBBDD() {
             goalsTeam1: gamePlayed ? randomNumber(4, 0) : 0,
             goalsTeam2: gamePlayed ? randomNumber(4, 0) : 0,
             matchPlayed: gamePlayed,
+            winner: null
           });
+
+          let winnerTeam = null;
+          if (match?.matchPlayed) {
+            if (match.goalsTeam1 !== match.goalsTeam2) {
+              winnerTeam = match.goalsTeam1 > match.goalsTeam2 ? match.team1 : match.team2;
+            }
+          }
+          match.winner = winnerTeam;
           await match.save();
           matches.push(match);
         }

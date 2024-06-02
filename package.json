@@ -7,12 +7,11 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "start": "ts-node-dev --inspect -- ./src/index.ts",
-    "seed:all": "ts-node-dev ./dist/domain/seeds/all.seed.js --ignore-watch",
+    "seed:all": "ts-node-dev ./dist/src/domain/seeds/all.seed.js --ignore-watch",
     "start:pro": "npm run build && node ./dist/src/index.js",
     "build": "tsc",
     "build:swagger-json": "ts-node-dev ./src/utils/generate-swagger-json.ts --ingore-watch",
-    "test": "cross-env DB_NAME=NODE-S16-TESTING-DB jest --silent",
-    "test2": "jest --silent",
+    "test": "cross-env DB_NAME=API_LIGA_FINAL-TESTING-DB jest --silent",
     "prepare": "husky install"
   },
   "keywords": [

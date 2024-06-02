@@ -9,6 +9,7 @@ export interface IMatch {
   goalsTeam1: number;
   goalsTeam2: number;
   matchPlayed: boolean;
+  winner: ObjectId | null;
 }
 
 // Creamos el schema del usuario
@@ -37,6 +38,12 @@ const matchSchema = new Schema<IMatch>(
       required: false,
       default: false
     },
+    winner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Team",
+      default: null,
+      required: false,
+    }
   },
   {
     timestamps: true,

@@ -22,11 +22,7 @@ export const configureRoutes = (app: any): any => {
 
   // Rutas
   const router = express.Router();
-  router.get("/", (req: Request, res: Response) => {
-    res.send(`
-      <h3>Esta es la RAIZ de nuestra API.</h3>
-    `);
-  });
+
   router.get("*", (req: Request, res: Response) => {
     res.status(404).send("Lo sentimos :( No hemos encontrado la página solicitada.");
   });

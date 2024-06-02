@@ -4,7 +4,7 @@ import { IMatch, Match } from "../entities/match-entity";
 const getAllMatches = async (page: number, limit: number): Promise<any> => {
   return await Match.find()
     .limit(limit)
-    .skip((page - 1) * limit).populate([{ path: "team1" }, { path: "team2" }]);
+    .skip((page - 1) * limit).populate([{ path: "team1" }, { path: "team2" }, { path: "winner" }]);
 };
 
 const getMatchesCount = async (): Promise<number> => {

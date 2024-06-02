@@ -61,9 +61,19 @@ const resetLeague = async (req: any, res: Response, next: NextFunction): Promise
   }
 };
 
+const getClasification = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const clasification = await leagueOdm.getClasification();
+    res.json(clasification);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const leagueService = {
   getAllLeagues,
   createLeague,
   updateLeague,
   resetLeague,
+  getClasification
 };
