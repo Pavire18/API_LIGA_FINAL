@@ -100,6 +100,10 @@ const getClasification = async (): Promise<any> => {
       }
     }
   });
+
+  clasification.forEach(equipo => {
+    equipo.pp = equipos.length
+  });
   console.log(clasification);
 
   return clasification.sort((a: any, b: any) => (a.pt > b.pt ? 1 : b.pt > a.pt ? -1 : 0));
